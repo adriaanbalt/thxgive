@@ -27,15 +27,22 @@ class ThxGive
 
 
 	showResults: (images) ->
-		for item in images
-			html = "<div class='photo' data-id='#{item.id}'>"
+		for item, i in images
+			html = "<div class='photo' data-id='#{item.id}' id='photo-#{item.id}'>"
 			html += "<img src='#{item.images.low_resolution.url}' />"
 			html += "<div class='user'><img src='#{item.user.profile_picture}' /> <a href='http://instagram.com/#{item.user.username}'>#{item.user.username}</a></div>"
 
 			if item.likes
 				html += "<div class='likes'> <span>&hearts;</span> #{item.likes.count} </div>"
 			html += "</div>"
+
+			$('#loader').fadeOut 200
 			$("body").append html
+			TweenLite.to $("#photo-#{item.id}"), .3,
+				css:
+					opacity: 1
+				delay: i*.1
+
 
 	openPhoto: (e) =>
 		for item, i in @images
